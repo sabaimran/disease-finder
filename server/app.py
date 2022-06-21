@@ -9,23 +9,25 @@ from models import Disorder, Symptom
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/")
-def hello():
-    return "Hello World!"
+"""
+API Routes.
+"""
 
+# Get all disorders
 @app.route("/disorders")
 def disorders():
     return {
         "disorders": [disorder_to_dict(disorder) for disorder in get_disorders()]
     }
 
+# Get all symptoms
 @app.route("/symptoms")
 def symptoms():
     return {
         "symptoms": [symptom_to_dict(symptom) for symptom in get_symptoms()]
     }
 
-# Define a POST request which takes a list of symptom IDs and returns the likeliest diseases
+# Using a list of symptom IDs, return the likeliest diseases
 @app.route("/find-disorders", methods=["POST"])
 def find_disorders():
     print(request)
@@ -37,6 +39,11 @@ def find_disorders():
     return {
         "disorders": [disorder_to_dict(disorder_with_symptom['disorder']) for disorder_with_symptom in most_relevant_disorders_with_symptoms]
     }
+
+
+"""
+Helper functions which convert our db types to dictionaries for convenient JSON-parsing.
+"""
 
 def disorder_to_dict(disorder: Disorder):
     return {

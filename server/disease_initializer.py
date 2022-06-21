@@ -110,7 +110,7 @@ def process_disorder_association(hpo_disorder_association: List[Any], disorder: 
     hpo_frequency_element = hpo_disorder_association.find('HPOFrequency')
     hpo_frequency = hpo_frequency_element.find("Name").text
 
-    # Create a raw disease-symptom association object. We'll later associated the disorder and symptoms to their ids for newly-created objects stored in the database.
+    # Create a raw disease-symptom association object. We'll later associate the disorder and symptoms to their ids for newly-created objects stored in the database.
     disorder_symptom_association = RawDisorderSymptomAssociation(symptom, disorder, frequencies[hpo_frequency])
 
     return (symptom, disorder_symptom_association)
