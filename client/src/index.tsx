@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { DisorderDisplayBox } from './DisorderDisplayBox';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { SymptomSearchBox } from './SymptomSearchBox';
-import { MostRelevantDiseases } from './MostRelevantDiseases';
+
+import App from './App';
+import { DisorderDisplayBox } from './components/DisorderDisplayBox';
+import { SymptomSearchBox } from './components/SymptomSearchBox';
+import { MostRelevantDiseases } from './components/MostRelevantDiseases';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

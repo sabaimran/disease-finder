@@ -1,5 +1,5 @@
-import { IDisorder } from "./DisorderDisplayBox";
-import { ISymptom } from "./SymptomSearchBox";
+import { IDisorder } from "./components/DisorderDisplayBox";
+import { ISymptom } from "./components/SymptomSearchBox";
 
 const API_URL = 'http://localhost:5000';
 
