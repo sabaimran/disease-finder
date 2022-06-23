@@ -36,6 +36,8 @@ Open two separate terminals, one to run the server and one to run the client.
 1. `chmod +x run.bash`
 2. `./run.bash`
 
+If you're testing in this way and need to re-start the server, please comment out the db initialization step in `run.bash` to save yourself 30 minutes 😊.
+
 ## Stack
 - React - frontend
 - Flask - API
