@@ -31,7 +31,6 @@ a.source-code {
 }
 
 a.disorder-metadata {
-  /* color: var(--accent-two); */
   font-size: medium;
   background-color: none;
   padding-top: 0;
@@ -72,7 +71,7 @@ div.most-relevant-diseases {
   font-size: calc(10px + 2vmin);
   color: var(--accent-four);
   font-size: medium;
-  padding: 2vw 2vw 5vw 5vw;
+  margin: 4vh 2vw;
 }
 
 h1.most-relevant-diseases-header,
@@ -87,12 +86,9 @@ div.disorder-display-box-body,
 div.symptom-display-box-body,
 div.most-relevant-diseases-body {
   margin-top: 2vw;
-  /* display: flex; */
-  /* flex-direction: column; */
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr);
   grid-gap: 8px;
-  width: 80vw;
 }
 
 div.disorder-display-box-body-disorder,
@@ -104,7 +100,6 @@ div.symptom-display-box-body-symptom {
 }
 
 div.selected-symptoms-body {
-  width: 80vw;
   margin-top: 2vw;
   display: flex;
   flex-direction: row;
@@ -124,13 +119,14 @@ div.footer {
 }
 
 input[type=text] {
-  width: 80vw;
+  width: 100%;
   padding: 1vw;
   border: none;
   border-bottom: 1px solid var(--accent-four);
   background-color: var(--accent-one);
   color: var(--accent-four);
   font-size: larger;
+  box-sizing: border-box;
 }
 
 button.selected-symptoms-symptom-search {
@@ -155,7 +151,6 @@ button.selected-symptoms-symptom-metadata {
   background-color: var(--accent-one);
   color: var(--accent-three);
   margin-top: 1vw;
-  /* padding: 1vw; */
   border: none;
   font-size: large;
 }
@@ -165,4 +160,12 @@ button.selected-symptoms-symptom-metadata:hover {
   background-color: var(--accent-three);
   color: var(--accent-one);
   cursor: pointer;
+}
+
+@media (min-width: 900px) {
+  div.disorder-display-box-body,
+  div.symptom-display-box-body,
+  div.most-relevant-diseases-body {
+    grid-template-columns: repeat(3, 1fr); 
+  }
 }
