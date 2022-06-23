@@ -5,6 +5,10 @@ See [challenge.md](challenge.md) for the challenge description.
 
 Hi! You can see the solution [here](http://ec2-52-88-42-74.us-west-2.compute.amazonaws.com:3000). Click on `symptoms` to see a page which allows you to search for symptoms, select them, and then compute the most likely diagnosis. Click on `disorders` to see a flat list of all the disorders available in the database.
 
+## Run Unit Tests
+
+`python3 -m pytest`
+
 ## Local Development
 
 ### If using Docker Compose (preferred)
