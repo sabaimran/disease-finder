@@ -20,6 +20,9 @@ class DisorderDB:
     def get_disorder_by_id(self, id):
         return self.session.query(Disorder).filter_by(id=id).first()
 
+    def get_symptom_by_id(self, id):
+        return self.session.query(Symptom).filter_by(id=id).first()
+
     def get_disorder_by_orpha_code(self, orpha_code):
         return self.session.query(Disorder).filter_by(orpha_code=orpha_code).first()
 
@@ -44,9 +47,13 @@ class DisorderDB:
         top_disorders = disorder_symptom_associations[:10]
 
         # Get the disorders
-        top_disorders_with_symptoms = [{
-            'disorder': self.get_disorder_by_id(disorder_symptom_association.disorder_id),
-            'symptoms': self.get_symptom_by_hpo_id(disorder_symptom_association.symptom_id)} for disorder_symptom_association in top_disorders]
+        top_disorders_with_symptoms = [
+            {
+                'disorder': self.get_disorder_by_id(disorder_symptom_association.disorder_id),
+                'symptom': self.get_symptom_by_id(disorder_symptom_association.symptom_id),
+                'frequency': disorder_symptom_association.frequency
+            } 
+            for disorder_symptom_association in top_disorders]
 
         return top_disorders_with_symptoms
 

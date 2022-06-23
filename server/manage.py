@@ -17,17 +17,18 @@ def drop_tables(db: DisorderDB):
 
 if __name__ == "__main__":
 
+    db = None
+    if len(sys.argv) > 1:
+        db = DisorderDB(DATABASE_PATH)
+
     # If user passes the --drop-db flag, drop the tables
     if "--drop-tables" in sys.argv:
-        db = DisorderDB(DATABASE_PATH)
         drop_tables(db)
 
     # If user passes the --setup-db flag, initialize the tables
     if "--setup-db" in sys.argv:
-        db = DisorderDB(DATABASE_PATH)
         setup_db(db)
 
     # If the user passes the --populate-db flag, populate the tables
     if "--populate-db" in sys.argv:
-        db = DisorderDB(DATABASE_PATH)
         populate_diseases(db=db)
