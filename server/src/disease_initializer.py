@@ -2,9 +2,9 @@ from typing import Any, List, Tuple
 import urllib.request
 import xml.etree.ElementTree as ET
 
-from models import Disorder, Symptom, DisorderSymptomAssociation
-
-from db import get_disorder_by_orpha_code, get_symptom_by_hpo_id, add_disorders, add_symptoms, add_disorder_symptom_associations
+from src.constants import DATASET_PATH
+from src.models import Disorder, Symptom, DisorderSymptomAssociation
+from src.db import DisorderDB
 
 frequencies = {
     'Excluded (0%)': 0,
@@ -26,14 +26,19 @@ class RawDisorderSymptomAssociation:
         self.disorder = disorder
         self.frequency = frequency
 
-def populate_diseases() -> None:
+"""
+This module provides a number of utility functions for parsing the raw data in our data source and storing it in the database.
+"""
+
+def populate_diseases(db: DisorderDB, xml_file = None, url = DATASET_PATH) -> None:
     """
     Retrieves the XML file from the server and parses it.
     Converts the raw data into the relevant data models and stores them in the database.
     """
 
-    url = "http://www.orphadata.org/data/xml/en_product4.xml"
-    xml_file = urllib.request.urlopen(url)
+    # If no XML file is provided, retrieve it from the remote location.
+    if xml_file is None:
+        xml_file = urllib.request.urlopen(url)
 
     tree = ET.parse(xml_file)
     root = tree.getroot()
@@ -54,23 +59,23 @@ def populate_diseases() -> None:
             symptoms.append(symptom)
             raw_disorder_symptom_associations.append(disorder_symptom_association)
 
-    add_disorders(disorders)
-    add_symptoms(symptoms)
+    db.add_disorders(disorders)
+    db.add_symptoms(symptoms)
 
     final_disorder_symptom_associations = []
 
     # From the raw disorder and symptoms which are associated with each other, create links to the objects stored in the db.
     for association in raw_disorder_symptom_associations:
-        final_disorder_symptom_associations.append(make_disorder_symptom_association(association))
+        final_disorder_symptom_associations.append(make_disorder_symptom_association(db, raw_association=association))
 
-    add_disorder_symptom_associations(final_disorder_symptom_associations)
+    db.add_disorder_symptom_associations(final_disorder_symptom_associations)
 
-def make_disorder_symptom_association(raw_association: RawDisorderSymptomAssociation) -> DisorderSymptomAssociation:
+def make_disorder_symptom_association(db: DisorderDB, raw_association: RawDisorderSymptomAssociation) -> DisorderSymptomAssociation:
     """
     Creates a new disease-symptom association object.
     """
-    disorder_id = get_disorder_by_orpha_code(raw_association.disorder.orpha_code).id
-    symptom_id = get_symptom_by_hpo_id(raw_association.symptom.hpo_id).id
+    disorder_id = db.get_disorder_by_orpha_code(raw_association.disorder.orpha_code).id
+    symptom_id = db.get_symptom_by_hpo_id(raw_association.symptom.hpo_id).id
     return DisorderSymptomAssociation(disorder_id, symptom_id, raw_association.frequency)
 
 def process_disorder(disorder_element) -> Tuple[Disorder, List[Any]]:
