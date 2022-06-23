@@ -10,7 +10,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 
 # Initialize the database. Comment out this line after first run to speed up the process.
-python3 manage.py --drop-tables --setup-db --populate-db
+# python3 manage.py --drop-tables --setup-db --populate-db
 
 # Start the server
 flask run

@@ -14,7 +14,7 @@ RUN pip install -r requirements.txt
 COPY . /app
 
 # Setup the database
-RUN python3 src/manage.py --drop-tables --setup-db --populate-db
+RUN python3 manage.py --drop-tables --setup-db --populate-db
 
 # Run the Flask app
 CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]

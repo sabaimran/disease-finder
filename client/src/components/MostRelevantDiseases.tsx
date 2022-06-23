@@ -2,10 +2,15 @@ import { IDisorder } from "./DisorderDisplayBox";
 
 import { useLocation, Link } from "react-router-dom";
 
+interface IRelevantDisease {
+    disorder: IDisorder,
+    score: number
+}
+
 export function MostRelevantDiseases() {
 
     const location = useLocation();
-    const { disorders } = location.state as { disorders: IDisorder[] };
+    const { disorders } = location.state as { disorders: IRelevantDisease[] };
     return (
         <div className="most-relevant-diseases">
             <Link to="/">Home</Link>
@@ -19,9 +24,10 @@ export function MostRelevantDiseases() {
     );
 }
 
-function ResultDisplayTile(props: IDisorder) {
+function ResultDisplayTile(props: IRelevantDisease) {
 
-    const disorder = props;
+    const relevantDisease = props;
+    const disorder = relevantDisease.disorder;
 
     return(
         <div className="disorder-display-box-body-disorder" key={disorder.id}>

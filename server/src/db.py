@@ -1,5 +1,6 @@
 # Use an sqlite database with SQL Alchemy
 from typing import List
+from attr import assoc
 import sqlalchemy as db
 from sqlalchemy.orm import sessionmaker
 
@@ -40,22 +41,30 @@ class DisorderDB:
         # Get all the disorder-symptom associations
         disorder_symptom_associations = self.get_disorder_symptom_associations_by_symptom_ids(symptom_ids)
 
-        # Sort the disorder-symptom associations by the frequency of the symptom
-        disorder_symptom_associations.sort(key=lambda x: x.frequency, reverse=True)
+        disorder_score = {}
+
+        # Aggregate the disorders by the disorder_id and sum their frequency to compute its relevancy score.
+        for association in disorder_symptom_associations:
+            disorder_score[association.disorder_id] = disorder_score.get(association.disorder_id, 0) + association.frequency
+
+        # Convert the dictionary to a list and sort by the score
+        disorder_score_list = [(disorder_id, score) for disorder_id, score in disorder_score.items()]
+
+        # Sort the list by the score
+        disorder_score_list.sort(key=lambda x: x[1], reverse=True)
 
         # Get the top 10 disorders
-        top_disorders = disorder_symptom_associations[:10]
+        top_disorders = disorder_score_list[:10]
 
         # Get the disorders
-        top_disorders_with_symptoms = [
+        top_disorders_as_dict = [
             {
-                'disorder': self.get_disorder_by_id(disorder_symptom_association.disorder_id),
-                'symptom': self.get_symptom_by_id(disorder_symptom_association.symptom_id),
-                'frequency': disorder_symptom_association.frequency
+                'disorder': self.get_disorder_by_id(disorder_id),
+                'score': score,
             } 
-            for disorder_symptom_association in top_disorders]
+            for (disorder_id, score) in top_disorders]
 
-        return top_disorders_with_symptoms
+        return top_disorders_as_dict
 
     def add_disorders(self, disorders: List[Disorder]):
         self.session.add_all(disorders)

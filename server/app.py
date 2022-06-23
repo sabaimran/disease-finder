@@ -32,20 +32,23 @@ def symptoms():
 # Using a list of symptom IDs, return the likeliest diseases
 @app.route("/find-disorders", methods=["POST"])
 def find_disorders():
-    print(request)
-    print(request.data)
-    print('request in find-disorders', request.json)
     symptom_ids = request.json["symptomIds"]
-    most_relevant_disorders_with_symptoms = db.find_most_relevant_disorders(symptom_ids)
+    most_relevant_disorders = db.find_most_relevant_disorders(symptom_ids)
 
     return {
-        "disorders": [disorder_to_dict(disorder_with_symptom['disorder']) for disorder_with_symptom in most_relevant_disorders_with_symptoms]
+        "disorders": [relevant_disorder_to_dict(disorder_with_metadata) for disorder_with_metadata in most_relevant_disorders]
     }
 
 
 """
 Helper functions which convert our db types to dictionaries for convenient JSON-parsing.
 """
+
+def relevant_disorder_to_dict(relevant_disorder: dict):
+    return {
+        "disorder": disorder_to_dict(relevant_disorder['disorder']),
+        "score": relevant_disorder['score']
+    }
 
 def disorder_to_dict(disorder: Disorder):
     return {

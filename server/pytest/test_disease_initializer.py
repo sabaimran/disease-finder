@@ -40,12 +40,7 @@ class TestDiseaseInitializer:
             assert expected_disorder.orpha_code == actual_disorder.orpha_code
             assert expected_disorder.expert_link == actual_disorder.expert_link
 
-            expected_symptom = expected['symptom']
-            actual_symptom = actual['symptom']
-            assert expected_symptom.name == actual_symptom.name
-            assert expected_symptom.hpo_id == actual_symptom.hpo_id
-
-            assert expected["frequency"] == actual["frequency"]
+            assert expected["score"] == actual["score"]
         
 
 @pytest.fixture
@@ -101,8 +96,7 @@ def expected_symptoms():
 def expected_symptom_disorder_associations():
     return [{
         'disorder': models.Disorder(name='Alexander disease', disorder_type='Disease', disorder_group='Disorder', orpha_code=58, expert_link='http://www.orpha.net/consor/cgi-bin/OC_Exp.php?lng=en&Expert=58'),
-        'symptom': models.Symptom(name='Encephalitis', hpo_id='HP:0002383'),
-        'frequency': 2
+        'score': 2
     }]
 
 @pytest.fixture
