@@ -30,7 +30,6 @@ export function SymptomSearchBox() {
 
     function searchBySymptoms() {
         // Get all of the disorders from the API
-        console.log('attempt search by symptoms', selectedSymptoms);
         api.findRelevantDiseaseBySymptoms(selectedSymptoms.map(s => s.id))
             .then(disorders => {
                 console.log(disorders);
@@ -42,7 +41,7 @@ export function SymptomSearchBox() {
         <div className="symptom-display-box">
             <Link to="/">Home</Link>
             <div className="symptom-display-box-header">
-                <h1>Symptoms Search Page - Find Relevant Diseases</h1>
+                <h1 className='symptom-display-box-header'>Symptoms Search Page - Find Relevant Diseases</h1>
                 <input type="text" placeholder="Search" value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
             {/* Display the selected symptoms */}
@@ -58,7 +57,7 @@ export function SymptomSearchBox() {
             </div>
             {/* Search for the most relevant diseases based on the selected symptoms */}
             {selectedSymptoms.length > 0 && 
-                <button className="selected-symptoms-symptom-search" onClick={() => searchBySymptoms()}>Search</button>
+                <button className="selected-symptoms-symptom-search" onClick={() => searchBySymptoms()}>Find Relevant Disorders</button>
             }
             {/* Display the list of all possible symptoms */}
             <h2 className="symptom-display-box-body-title">Symptom Options</h2>

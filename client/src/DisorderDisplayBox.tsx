@@ -30,7 +30,7 @@ export function DisorderDisplayBox() {
         <div className="disorder-display-box">
             <Link to="/">Home</Link>
             <div className="disorder-display-box-header">
-                <h1>Disorder Display Box</h1>
+                <h1 className='disorder-display-box-header' >Disorder Display Box</h1>
                 <input type="text" placeholder="Search" value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
             <div className="disorder-display-box-body">

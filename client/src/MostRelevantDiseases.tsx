@@ -9,7 +9,7 @@ export function MostRelevantDiseases() {
     return (
         <div className="most-relevant-diseases">
             <Link to="/">Home</Link>
-            <h1>Most Relevant Diseases</h1>
+            <h1 className="most-relevant-diseases-header" >Most Relevant Diseases</h1>
             <div className="most-relevant-diseases-body">
                 {disorders.map(disorder => (
                     <ResultDisplayTile {...disorder} />
