@@ -7,6 +7,8 @@ Hi! You can see the solution [here](http://ec2-52-88-42-74.us-west-2.compute.ama
 
 ### Edge Cases and Future Directions
 
+- Add provisions around data quality issues
+- Add more data sources (e.g. [SNOMED](http://snomed.info/sct))
 - In the UI, make it more apparent why a particular disease was in the returned list, and give a probability estimate
 - Use Machine Learning to build a better algorithm for computing the most likely diagnosis
 - Use a proper database more suitable for large applications (Postgres, MySQL, etc.)
